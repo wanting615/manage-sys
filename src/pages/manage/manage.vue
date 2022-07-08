@@ -80,7 +80,9 @@ const closeModal = (docType: DocType | null)=>{
         ElMessage({ message: res.message, type: 'error' })
       }
     })
-  };
+  }else{
+    data.dialogVisible = false;
+  }
 }
 
 </script>

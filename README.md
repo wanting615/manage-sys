@@ -15,4 +15,4 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 ### npm run dev
 
 ### 打包
-npm run build
+npm run build --prod

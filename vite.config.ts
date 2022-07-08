@@ -18,6 +18,13 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src")
     }
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        charset: false
+      }
+    }
+  },
   server: {
     port: 3001,
     open: true,
