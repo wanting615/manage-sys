@@ -1,0 +1,55 @@
+@media screen and (max-width: 1000px){
+  #app{
+    width: 100%;
+    min-width: auto;
+  }
+  .el-dialog{
+    width: 80% !important;
+  }
+  // list 页
+  .list{
+    .el-aside{
+      width: 100px !important;
+      font-size: 14px;
+      overflow: hidden !important;
+      .el-icon-arrow-down{
+        right: 10px;
+      }
+      .el-sub-menu__title{
+        padding: 0 10px !important;
+      }
+      .el-menu-item{
+        padding: 0 10px 0 15px !important;
+        min-width: auto !important;
+      }
+      .el-icon-message{
+        display: none;
+      }
+    }
+    .el-container{
+      .el-header{
+        .add-btn{
+          display: none !important;
+        }
+      }
+      .el-main{
+        padding: 0;
+      }
+    }
+  }
+  
+  //manage 页
+  .manage{
+    .cell{
+      .edit{
+        margin-bottom: 10px !important;
+      }
+      .el-button+.el-button{
+        margin-left: 0;
+      }
+      span{
+        display: block;
+      }
+    }
+  }
+}

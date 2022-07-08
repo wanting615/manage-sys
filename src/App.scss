@@ -1,0 +1,27 @@
+html,body{
+  margin: 0;
+}
+.item .el-form-item__label{
+  color: #000;
+}
+//文档类型添加 弹出层
+.doc-drawer.el-drawer.ttb{
+  width: 40%;
+  min-width: 560px;
+  height: 60% !important;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.el-drawer__header{
+  text-align: center;
+}
+.el-table__cell .cell {
+  max-height: 100px;
+}
+.md-dialog{
+  max-height: 700px;
+  overflow-y: scroll;
+}
+.dropdown{
+  margin-left: 20px;
+}
