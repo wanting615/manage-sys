@@ -1,9 +1,8 @@
 <template>
   <el-drawer
     title="添加文档类型"
-    direction="ttb"
-    custom-class="doc-drawer"
-    v-model="drawer"
+    class="doc-drawer"
+    v-model="drawerVisible"
     :before-close="cancelForm"
     destroy-on-close
   >
@@ -13,8 +12,8 @@
       </el-form-item>
       <el-form-item label="内容类型" label-width="80px">
         <el-checkbox-group v-model="data.form.contentTypes">
-          <el-checkbox label="知识点" border value="info"></el-checkbox>
-          <el-checkbox label="问答题" border value="quetion"></el-checkbox>
+          <el-checkbox label="知识点" :border="true" value="info"></el-checkbox>
+          <el-checkbox label="问答题" :border="true" value="quetion"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="类型图标" label-width="80px">
@@ -33,7 +32,7 @@
         </el-upload>
       </el-form-item>
     </el-form>
-    <div class="drawer__footer">
+    <div class="dialog-footer">
       <el-button @click="cancelForm">取消</el-button>
       <el-button
         type="primary"
@@ -44,18 +43,22 @@
   </el-drawer>
 </template>
 <script setup lang="ts">
-import { addDocType } from "@/api/doc";
-import { ElMessage, ElMessageBox } from "element-plus";
+import { reactive, ref, watch, } from "vue";
 import { Plus } from '@element-plus/icons'
-import { reactive, } from "vue";
+import { ElMessage, ElMessageBox } from "element-plus";
+import { addDocType } from "@/api/doc";
 import { UrlService } from "@/api/ur.base" 
+import { useStore } from "@/store";
 
-defineProps({
-  drawer: {
-    type: Boolean,
-    default: false
-  }
+const props = defineProps<{
+  docTypeDrawer: boolean,
+}>()
+
+const drawerVisible = ref(false);
+watch(() => props.docTypeDrawer, (newVal) => {
+  drawerVisible.value = newVal;
 })
+
 const emit = defineEmits(['closeDarwer'])
 const data = reactive<{
   form: {
@@ -75,8 +78,9 @@ const data = reactive<{
   unploadUrl: UrlService.baseUrl + "uploadTypeImg"
 })
 const baseUrl = import.meta.env.VITE_BASE_URL;
+const store = useStore();
 const uploadData = reactive({
-  ACCESS_TOKEN: localStorage.getItem('token')
+  ACCESS_TOKEN: store.state.user?.token
 })
 
 //上传成功
@@ -140,4 +144,8 @@ const resetData = () => {
   align-items: center;
   border: 1px dashed #ccc;
 }
+.dialog-footer {
+    margin-top: 40px;
+    text-align: center;
+  }
 </style>

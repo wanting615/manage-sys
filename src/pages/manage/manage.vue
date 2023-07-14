@@ -1,6 +1,7 @@
 <template>
-  <div class="manage">
-    <el-table :data="data.docTypeList" style="width: 100%" row-class-name="table">
+  <div class="container">
+    <el-container style="padding: 8px;background-color: #fff;">
+      <el-table :data="data.docTypeList" :border="true" :stripe="true"  style="width: 100%" row-class-name="table">
       <el-table-column label="文档类型图标">
         <template #default="scope">
           <img :src="baseUrl + scope.row.iconUrl" width="30">
@@ -30,6 +31,7 @@
         </template>
       </el-table-column>
     </el-table>
+    </el-container>
   </div>
   <modalComponnet :dialogVisible="data.dialogVisible" :rowData="data.rowData" @closeModal="closeModal"></modalComponnet>
 </template>

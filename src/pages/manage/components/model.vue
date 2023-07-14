@@ -45,7 +45,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { DocType } from '@/types/doc';
 import { Plus } from '@element-plus/icons'
@@ -53,6 +53,8 @@ const props = defineProps<{
   dialogVisible: boolean,
   rowData: DocType | null
 }>()
+
+const dialogVisible = ref(false);
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 

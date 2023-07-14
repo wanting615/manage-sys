@@ -1,8 +1,29 @@
+@import "./theme/theme.scss";
+
+#app {
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.login-out {
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: $themeColor;
+  }
+}
+
 html,body{
   margin: 0;
+  color: $themeTextColor;
 }
 .item .el-form-item__label{
-  color: #000;
+  color: $themeTextColor;
+}
+
+.container {
+  padding: 10px;
 }
 //文档类型添加 弹出层
 .doc-drawer.el-drawer.ttb{
