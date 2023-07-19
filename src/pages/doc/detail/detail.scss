@@ -1,0 +1,24 @@
+.warp-block {
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  border-radius: 4px;
+
+  .warp-block-title {
+    padding-bottom: 8px;
+    line-height: 24px;
+    font-weight: 500;
+    font-size: 16px;
+    color: #54607c;
+    border-bottom: 1px solid #d4d7dc;
+  }
+
+  .el-form {
+    padding-top: 16px;
+
+    .el-form-item {
+      min-width: 300px;
+    }
+    
+  }
+}

@@ -6,6 +6,7 @@ export interface DocType {
 	iconUrl: string; //文档类型icon
 	contentTypes: string[]; //文档内容类型
 	routerUrls?: { name: string; url: string }[];
+	disabled: number;
 }
 
 export interface Doc {
@@ -27,4 +28,11 @@ export interface DocForm {
 	contentType: string; //文档内容类型
 	content: string; //内容
 	autor?: string; //作者
+}
+
+export interface DocTypeForm {
+	id?: number;
+	contentTypes: string;
+	name: string;
+	iconUrl: string;
 }

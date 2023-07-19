@@ -13,19 +13,25 @@
       <el-button type="primary" class="add-doc-type" @click="addDocType">添加文档类型</el-button>
     </el-aside>
     <el-main>
-      <router-view></router-view>
+      
+      <router-view v-if="$route.meta.keepAlive" v-slot="{ Component }">
+        <keep-alive >
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </el-main>
 </el-container>
 
- <DocTypeDrawerComponent :docTypeDrawer="data.docTypeDrawer" @closeDarwer="closeDarwer" ></DocTypeDrawerComponent>
+ <DocTypeDrawerComponent v-model="data.docTypeDrawer" @closeDarwer="closeDarwer" ></DocTypeDrawerComponent>
 
 </template>
 <script setup lang="ts">
 import { reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { DocType } from "../../types/doc";
-import { getDocTypeList } from "../../api/doc";
-import DocTypeDrawerComponent from "./components/doc-type-drawer/drawer.vue";
+import { DocType } from "@/types/doc";
+import { getDocTypeList } from "@/api/doc";
+import DocTypeDrawerComponent from "@/components/doc-type-drawer/drawer.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -43,7 +49,7 @@ const data = reactive<{
 
 //获取文档类型列表
 getDocTypeList().then((res) => {
- data.docTypeList = res.data;
+ data.docTypeList = res.data.filter(res => res.disabled !== 0);
  data.docTypeList.forEach(item => {
    item.routerUrls = [];
    item.contentTypes.forEach(type => item.routerUrls?.push({ name: type, url: `/doc/${item.id}/${type}`}))
@@ -62,7 +68,6 @@ const addDocType = () => {
 }
 //关闭drawer回调
 const closeDarwer = (arg: boolean | DocType) => {
- data.docTypeDrawer = false;
  typeof arg !== "boolean" && data.docTypeList.push(arg);
 };
 

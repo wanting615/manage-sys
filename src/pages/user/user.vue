@@ -4,13 +4,13 @@
       <el-form :inline="true" :model="searchModel">
         <el-form-item v-for="item in searchConfig" :label="item.label">
           <template v-if="item.type === 'select'">
-            <el-select v-model="searchModel[item.model]" clearable placeholder="请选择">
+            <el-select filterable  v-model="searchModel[item.model]" clearable placeholder="请选择" @change="searchChange">
               <el-option v-for="(option,index) in data.searchOptions[item.model]" :key="index" :label="option" :value="option"></el-option>
             </el-select>
           </template>
 
           <template v-if="item.type === 'local-select'">
-            <el-select v-model="searchModel[item.model]" clearable placeholder="请选择">
+            <el-select filterable  v-model="searchModel[item.model]" clearable placeholder="请选择" @change="searchChange">
               <el-option v-for="(option,index) in item.options" :key="index" :label="option.label" :value="option.value"></el-option>
             </el-select>
           </template>
@@ -18,6 +18,7 @@
           <template v-if="item.type === 'date-line'">
             <el-date-picker
               v-model="searchModel[item.model]"
+              @change="searchChange"
               type="daterange"
               unlink-panels
               range-separator="-"
@@ -50,8 +51,9 @@
         </el-table-column>
         <el-table-column label="操作" :align="'center'" width="150">
           <template #default="scope">
-            <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" inline-prompt active-text="启用" inactive-text="禁用" :before-change="changeUserStatus(scope.row)"/>
             <el-button link type="primary" size="small">详情</el-button>
+            <el-divider direction="vertical" />
+            <el-switch v-model="scope.row.status" :active-value="1" :inactive-value="0" inline-prompt active-text="启用" inactive-text="禁用" :before-change="changeUserStatus(scope.row)"/>
           </template>
         </el-table-column>
       </el-table>
@@ -63,7 +65,7 @@
 
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
-import { UserInfo, UserSearchOption } from "@/types/user";
+import { UserInfo, UserSearchOption, UserKey } from "@/types/user";
 import { getUsers, setUserStatus, getUserSearchOptions} from "@/api/user";
 import { ElMessage } from 'element-plus';
 import { useFormatTime } from "@/until/format";
@@ -89,15 +91,27 @@ const data = reactive<{
   tableHeight: "400px"
 })
 
-const searchModel = reactive<{[key in keyof UserInfo]?: number | string}>({}); 
+const searchModel = reactive<{[key in UserKey]?: number | string | string[]}>({}); 
 
 onMounted(() => {
   const _tableHeight = window.innerHeight - 56 - 56 - 58;
   data.tableHeight = _tableHeight + 'px';
 })
 
+const handelWhere = () => {
+  const _where: any = {
+  };
+  Object.keys(searchModel).forEach((key) => {
+    const _val = searchModel[key as UserKey];
+    if (_val || _val === 0) {
+      _where[key] = _val;
+    }
+  })
+  return _where;
+}
+
 const getUserList = () => {
-  getUsers(data.page, data.limit).then(res => {
+  getUsers(data.page, data.limit, handelWhere()).then(res => {
     if (res.status) {
       data.count = res.count;
       data.dataList = res.data;
@@ -127,6 +141,13 @@ const changeUserStatus = (user: UserInfo) => {
 const dataFormat = (row: UserInfo) => {
   return useFormatTime("YYYY-mm-dd HH:MM", row.gen_time);
 }
+
+const searchChange = () => {
+  console.log(searchModel);
+  getUserList();
+}
+
+
 
 </script>
 

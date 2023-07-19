@@ -10,6 +10,12 @@ const docPage: Array<AppRouteRecordRaw> = [
 				path: ":id/:type",
 				name: "list",
 				component: () => import("@/pages/doc/list/list.vue"),
+				meta: { keepAlive: true },
+			},
+			{
+				path: "detail/:id",
+				name: "detail",
+				component: () => import("@/pages/doc/detail/detail.vue"),
 			},
 		],
 	},

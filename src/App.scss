@@ -46,3 +46,9 @@ html,body{
 .dropdown{
   margin-left: 20px;
 }
+
+.el-affix--fixed {
+  padding: 8px 0;
+  background: rgba(0,0,0,.5);
+  transition: all .5s ease-in-out;
+}

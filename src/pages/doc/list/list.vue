@@ -4,39 +4,27 @@
       <div class="list-title">文档列表</div>
       <div class="act-btn">
         <el-button :icon="RefreshLeft" circle @click="reset()"/>
-        <el-button type="primary" @click="showModal()">新建文档</el-button>
+        <el-button type="primary" @click="onAddDoc()">新建文档</el-button>
       </div>
     </div>
-    <ListComponent @editEvent="editEvent" @handlerPageChange="handlerPageChange" 
+    <ListComponent  @handlerPageChange="handlerPageChange" 
       :docList="data.docList" :pages="data.pages"></ListComponent>
   </el-container>
-  <!-- 添加文档类型 -->
-  <!-- <DrawerComponent :drawer="data.drawer" @closeDarwer="closeDarwer" v-if="data.drawer"></DrawerComponent> -->
-  <!-- 添加文档 -->
-  <DocDrawerCompnent
-    :docDrawerVisible="data.docDrawerVisible"
-    @closeDrawer="closeDrawer"
-    :editData="data.editData"
-  ></DocDrawerCompnent>
 </template>
 <script setup lang="ts">
 import { reactive, watch } from "vue";
-import { useRoute, onBeforeRouteUpdate} from "vue-router";
+import { useRoute, onBeforeRouteUpdate, useRouter} from "vue-router";
 import { RefreshLeft } from "@element-plus/icons";
 import { getDocByType } from "@/api/doc";
 import { Doc } from "@/types/doc";
 import ListComponent from "../components/list-component/list.component.vue";
-import DocDrawerCompnent from "../components/doc-drawer/doc-drawer.vue";
+const router = useRouter();
 
 const data = reactive<{
-  docDrawerVisible: boolean; //控制打开添加文档弹窗
-  editData: Doc | null; //编辑数据
   docList: Doc[]; ///文档列表
   page: number, // 当前页
   pages: number;
 }>({
-  docDrawerVisible: false,
-  editData: null,
   docList: [],
   page: 1,
   pages: 1
@@ -74,28 +62,9 @@ const reset = () => {
 
 if (urlParams.id != null) reset();
 
-//展示添加文档弹窗
-const showModal = () => {
-  data.docDrawerVisible = true;
-  data.editData = null;
-};
-
-//关闭添加\编辑文档modal
-const closeDrawer = (type: string, doc: Doc) => {
-  data.docDrawerVisible = false;
-  if (type === "add") {
-    data.docList.unshift(doc);
-  } else if (type === "edit") {
-    const index = data.docList.findIndex((item) => item.id === doc.id);
-    data.docList.splice(index, 1, doc);
-  }
-};
-
-//编辑回调
-const editEvent = (doc: Doc) => {
-  data.editData = doc;
-  data.docDrawerVisible = true;
-};
+const onAddDoc = () => {
+  router.push("/doc/detail/new")
+}
 
 // 翻页
 const handlerPageChange = (currentPage: number) => {

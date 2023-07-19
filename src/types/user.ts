@@ -15,7 +15,7 @@ export enum UserLevel {
 	nomal = 2,
 }
 
-type userKey = keyof UserInfo;
+export type UserKey = keyof UserInfo;
 
 export type UserSearchOption = {
 	[key in string]: Array<string | number>;

@@ -46,20 +46,38 @@
 import { reactive, ref, watch, } from "vue";
 import { Plus } from '@element-plus/icons'
 import { ElMessage, ElMessageBox } from "element-plus";
-import { addDocType } from "@/api/doc";
+import { addDocType, updateDocType } from "@/api/doc";
 import { UrlService } from "@/api/ur.base" 
 import { useStore } from "@/store";
+import { DocType, DocTypeForm } from "@/types/doc";
+import { da } from "element-plus/es/locale";
 
-const props = defineProps<{
-  docTypeDrawer: boolean,
-}>()
-
-const drawerVisible = ref(false);
-watch(() => props.docTypeDrawer, (newVal) => {
-  drawerVisible.value = newVal;
+type Props = {
+  docType?: DocType | null;
+  modelValue: boolean
+}
+const props = withDefaults(defineProps<Props>(), {
+  docType: null,
+  modelValue: false
 })
 
-const emit = defineEmits(['closeDarwer'])
+const drawerVisible = ref(false);
+const baseUrl = import.meta.env.VITE_BASE_URL;
+const store = useStore();
+const uploadData = reactive({
+  ACCESS_TOKEN: store.state.user?.token
+})
+
+watch(() => props.modelValue, (newVal) => {
+  if (newVal) {
+    drawerVisible.value = newVal
+    initData();
+  };
+}, {
+  immediate: true
+})
+
+const emit = defineEmits(['closeDarwer',"update:modelValue"])
 const data = reactive<{
   form: {
     name: string,
@@ -77,11 +95,12 @@ const data = reactive<{
   imageUrl: '',
   unploadUrl: UrlService.baseUrl + "uploadTypeImg"
 })
-const baseUrl = import.meta.env.VITE_BASE_URL;
-const store = useStore();
-const uploadData = reactive({
-  ACCESS_TOKEN: store.state.user?.token
-})
+
+const initData = () => {
+  data.form.name = props.docType?.name ?? '';
+  data.form.contentTypes = props.docType?.contentTypes ?? [];
+  data.imageUrl = props.docType?.iconUrl ?? '';
+}
 
 //上传成功
 const handleAvatarSuccess = (res: { status: boolean; message: string; url: string }, file: File) => {
@@ -100,28 +119,36 @@ const handleClose = () => {
   if (data.loading) {
     return
   }
-  ElMessageBox.confirm('确定提交吗?')
-    .then(() => {
-      data.loading = true
-      addDocType(data.form.name, data.form.contentTypes.join(","), data.imageUrl).then(res => {
-        setTimeout(() => {
-          if (res.status) {
-            emit('closeDarwer', res.data);
-            ElMessage({ message: res.message, type: 'success' })
-            resetData();
-          } else {
-            ElMessage({ message: res.message, type: 'warning' })
-          }
-          data.loading = false;
-        }, 400)
-      })
-
-    })
+  data.loading = true
+  const _paylod: DocTypeForm = {
+    id: props.docType?.id,
+    name: data.form.name,
+    contentTypes: data.form.contentTypes.join(","),
+    iconUrl: data.imageUrl
+  }
+  const _request = props.docType?.id ? updateDocType(_paylod) : addDocType(_paylod)
+ 
+  _request.then(res => {
+    setTimeout(() => {
+      if (res.status) {
+        emit("update:modelValue", false);
+        emit('closeDarwer', res.data);
+        drawerVisible.value = false;
+        ElMessage({ message: res.message, type: 'success' })
+        resetData();
+      } else {
+        ElMessage({ message: res.message, type: 'warning' })
+      }
+      data.loading = false;
+    }, 400)
+  })
 }
 //取消
 const cancelForm = () => {
   data.loading = false;
+  emit("update:modelValue", false);
   emit('closeDarwer', false);
+  drawerVisible.value = false;
 }
 
 const resetData = () => {

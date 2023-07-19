@@ -11,9 +11,11 @@ export class UrlService {
 	public static docTypeList = UrlService.baseUrl + "getTypeList"; //获取所有文档类型
 	public static addDocType = UrlService.baseUrl + "addWxtype"; //添加文档类型
 	public static updateDocType = UrlService.baseUrl + "updateWxtype"; //更新文档类型
+	public static enableDocType = UrlService.baseUrl + "enableDocType"; // 启用or禁用
 
 	public static addDoc = UrlService.baseUrl + "addWxLearnInfo"; //添加文档
 	public static updateDoc = UrlService.baseUrl + "updateWxLearnInfo"; //更新文档
 	public static delDoc = UrlService.baseUrl + "delDoc"; //删除文档
+	public static getDocById = UrlService.baseUrl + "getDocById"; //查询文档
 	public static getDocByType = UrlService.baseUrl + "getDocByType"; //获取某类型的文档
 }
