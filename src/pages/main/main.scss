@@ -1,0 +1,33 @@
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding-right: 28px;
+  padding-left: 0;
+  background-color: #fff;
+  
+  img {
+    height: 50px;
+  }
+
+  .el-menu {
+    flex: 1;
+    padding-left: 16px;
+    border-bottom: 0;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #2b3848;
+    
+    .el-icon {
+      margin-left: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+  }
+}

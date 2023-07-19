@@ -1,0 +1,36 @@
+.register-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 440px;
+  padding: 48px;
+  border: 1px solid var(--el-border-color-light);
+  box-shadow: rgba(22, 14, 45, 0.02) 0px 0px 40px, rgba(22, 14, 45, 0.06) 0px 0px 104px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-sizing: border-box;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-size: 1.875rem;
+    font-weight: 500;
+    color: rgba(16, 24, 40, 0.8);
+  }
+
+  .register-tip {
+    margin-bottom: 1rem;
+    line-height: 24px;
+    opacity: .56;
+    font-size: 13px;
+    color: rgba(16, 24, 40, 0.8);
+    text-align: center;
+  }
+
+  .el-button {
+    width: 100%;
+    margin-top: 15px;
+  }
+}

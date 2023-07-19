@@ -1,11 +1,11 @@
 import { AppRouteRecordRaw } from "../type";
 
 const managePage: Array<AppRouteRecordRaw> = [
-  {
-    path: "/manage/index",
-    name: "manage",
-    component: () => import("@/pages/manage/manage.vue")
-  }
-]
+	{
+		path: "/manage",
+		name: "manage",
+		component: () => import("@/pages/manage/manage.vue"),
+	},
+];
 
-export default managePage
+export default managePage;

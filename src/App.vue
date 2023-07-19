@@ -4,21 +4,29 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from "@/store";
-import { getUserInfo } from "@/api/login";
-const store= useStore();
+import { useRouter } from 'vue-router';
+import { getUserInfo } from './api/login';
+import { useStore } from './store';
+
 const token = localStorage.getItem('token');
-if(token)  {
-  store.commit('setIslogin',true);
+const store = useStore();
+const router = useRouter();
+if (token) {
   store.commit('setToken', token);
-  getUserInfo().then(res => {
-    if(!res.status) { 
-      localStorage.removeItem('token');
-       store.commit('setIslogin',false);
-        store.commit('setToken', '');
+  getUserInfo(token).then(res => {
+    if (res.status) {
+      store.commit('setIslogin', true);
+      store.commit('setUserInfo', res.data);
+    } else {
+      store.commit('setToken', '');
+      localStorage.removeItem('token')
+      router.push('/home')
     }
   })
 }
+
+
+
 </script>
 
 <style lang="scss">
