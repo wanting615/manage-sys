@@ -50,7 +50,6 @@ import { addDocType, updateDocType } from "@/api/doc";
 import { UrlService } from "@/api/ur.base" 
 import { useStore } from "@/store";
 import { DocType, DocTypeForm } from "@/types/doc";
-import { da } from "element-plus/es/locale";
 
 type Props = {
   docType?: DocType | null;

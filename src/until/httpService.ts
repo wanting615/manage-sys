@@ -4,7 +4,7 @@
  * @LastEditTime: 2021-05-19 15:29:48
  * @FilePath: /elm-app/src/service/http.service.ts
  */
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import qs from "qs";
 import { useStore } from "@/store";
 
@@ -13,7 +13,7 @@ const store = useStore();
 axios.defaults.withCredentials = true; //允许带cookie
 // 请求拦截器
 axios.interceptors.request.use(
-	(config: AxiosRequestConfig) => {
+	(config: InternalAxiosRequestConfig) => {
 		// 携带token
 		console.log(store.state.user.token);
 		if (store.state.user.token) {
