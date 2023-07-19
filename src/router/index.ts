@@ -1,8 +1,4 @@
-import {
-	createRouter,
-	createWebHashHistory,
-	createWebHistory,
-} from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import { RouteRecordRaw } from "vue-router";
 import { AppRouteRecordRaw, FileType } from "./type";
 
@@ -22,7 +18,14 @@ const routes: Array<AppRouteRecordRaw> = [
 		path: "",
 		name: "main",
 		component: () => import("@/pages/main/main.vue"),
-		children: [...routerModule],
+		children: [
+			...routerModule,
+			{
+				path: "",
+				name: "redirect",
+				redirect: "/doc",
+			},
+		],
 	},
 
 	{
@@ -33,8 +36,18 @@ const routes: Array<AppRouteRecordRaw> = [
 ];
 
 const router = createRouter({
-	history: createWebHistory(),
+	history: createWebHashHistory(),
 	routes: routes as unknown as RouteRecordRaw[],
+});
+
+router.beforeEach((to, from) => {
+	if (!localStorage.getItem("token") && to.name !== "home") {
+		return { name: "home" };
+	}
+
+	if (localStorage.getItem("token") && to.name === "main") {
+		return { name: "doc" };
+	}
 });
 
 export default router;
