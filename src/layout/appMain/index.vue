@@ -3,7 +3,7 @@
     <div class="app-scrollbar">
       <router-view v-slot="{ Component, route }">
         <transition name="el-fade-in" mode="out-in">
-            <component :is="Component" :key="route.path" />
+          <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </div>
@@ -11,8 +11,7 @@
   </section>
 </template>
 
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 /** 美化原生滚动条 */
@@ -39,7 +38,6 @@
   }
 }
 
-
 .app-main {
   width: 100%;
   background-color: var(--body-bg-color);
@@ -55,5 +53,4 @@
     }
   }
 }
-
 </style>

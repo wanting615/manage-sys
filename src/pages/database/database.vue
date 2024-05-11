@@ -2,12 +2,6 @@
   <div>database</div>
 </template>
 
-<script lang="ts" setup>
-import { reactive } from "vue";
+<script lang="ts" setup></script>
 
-
-</script>
-
-<style>
-
-</style>
+<style></style>

@@ -8,22 +8,21 @@
     </div>
     <AppBreadcrumb />
 
-    <AppRightMenu></AppRightMenu>
+    <AppRightMenu />
   </div>
 </template>
 
 <script setup lang="ts">
-import { useStore } from "@/store";
-import { Expand, Fold} from "@element-plus/icons-vue"
-import AppBreadcrumb from "./breadcrumb.vue";
-import AppRightMenu from "./rightMenu.vue"
+import { useStore } from '@/store';
+import { Expand, Fold } from '@element-plus/icons-vue';
+import AppBreadcrumb from './breadcrumb.vue';
+import AppRightMenu from './rightMenu.vue';
 
 const store = useStore();
 
 const toggleSidebar = () => {
-  store.commit('setCloseSiderBar', !store.state.app.closeSiderBar)
-}
-
+  store.commit('setCloseSiderBar', !store.state.app.closeSiderBar);
+};
 </script>
 
 <style lang="scss">

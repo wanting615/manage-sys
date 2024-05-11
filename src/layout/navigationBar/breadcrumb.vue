@@ -15,23 +15,20 @@
 </template>
 
 <script lang="ts" setup>
-import { AppRouteRecordRaw } from '@/router/type';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+// import { AppRouteRecordRaw } from "@/router/type";
+// import { ref } from "vue";
+// import { useRoute } from "vue-router";
 
-const route = useRoute();
+// const route = useRoute();
 
+// const breadcrumbs = ref<AppRouteRecordRaw[]>([]);
 
-const breadcrumbs = ref<AppRouteRecordRaw[]>([]);
-
-const handleLink = (item: AppRouteRecordRaw) => {
-  //
-}
-
+// const handleLink = (item: AppRouteRecordRaw) => {
+//   //todo
+// };
 </script>
 
 <style lang="scss" scoped>
-
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
   font-size: 14px;

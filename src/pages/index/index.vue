@@ -1,13 +1,11 @@
 <template>
-    <div class="app-container center">
-      <no-data></no-data>
-    </div>
-  </template>
+  <div class="app-container center">
+    <no-data />
+  </div>
+</template>
 
-<script setup lang="ts">
+<script setup lang="ts"></script>
 
-</script>
-  
 <style lang="scss" scoped>
 .center {
   height: 100%;
@@ -16,5 +14,3 @@
   align-items: center;
 }
 </style>
-  
-  

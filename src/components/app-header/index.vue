@@ -1,17 +1,17 @@
 <template>
- <div class="app-header">
-  <span class="header-title">{{ headerTitle }}</span>
-  <el-affix :offset="56">
-    <div class="detail-btn">
-      <slot></slot>
-    </div>
-  </el-affix>
- </div>
+  <div class="app-header">
+    <span class="header-title">{{ headerTitle }}</span>
+    <el-affix :offset="56">
+      <div class="detail-btn">
+        <slot />
+      </div>
+    </el-affix>
+  </div>
 </template>
 
 <script setup lang="ts">
 defineProps<{
-  headerTitle: string
+  headerTitle: string;
 }>();
 </script>
 

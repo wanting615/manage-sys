@@ -1,13 +1,14 @@
+<!-- eslint-disable vue/require-toggle-inside-transition -->
 <template>
   <div>
     <div class="layout-logo-container">
       <transition name="layout-logo-fade">
-        <img :src="!isCollapse ? logoBig : logoSmall">
+        <img :src="!isCollapse ? logoBig : logoSmall" />
       </transition>
     </div>
 
     <el-scrollbar wrap-class="scrollbar-wrapper">
-        <el-menu
+      <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         background-color="#001428"
@@ -17,15 +18,15 @@
         :collapse-transition="false"
         :mode="'vertical'"
       >
-        <SliderItem 
+        <SliderItem
           v-for="route in routes"
           :key="route.path"
           :item="route"
           :is-collapse="isCollapse"
           :base-path="route.path"
-        ></SliderItem>
+        />
       </el-menu>
-      </el-scrollbar>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -33,9 +34,9 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '@/store';
-import SliderItem from "./sliderItem.vue";
-import logoBig from "@/assets/logo-text.svg"
-import logoSmall from "@/assets/logo.svg"
+import SliderItem from './sliderItem.vue';
+import logoBig from '@/assets/logo-text.svg';
+import logoSmall from '@/assets/logo.svg';
 
 const route = useRoute();
 const store = useStore();
@@ -46,10 +47,9 @@ const activeMenu = computed(() => {
   const {
     meta: { activeMenu },
     path
-  } = route
-  return activeMenu ? activeMenu : path
-})
-
+  } = route;
+  return activeMenu ? (activeMenu as string) : path;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -61,12 +61,11 @@ const activeMenu = computed(() => {
   background-color: transparent;
   text-align: center;
   overflow: hidden;
-  
+
   img {
     height: 40px;
     vertical-align: middle;
   }
-  
 }
 
 .sidebar-container {

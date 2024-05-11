@@ -1,11 +1,5 @@
 <template>
-  <el-popover
-    width="80%"
-    effect="dark"
-    :trigger="trigger"
-    :popper-class="popperClass"
-    :content="data"
-  >
+  <el-popover width="80%" effect="dark" :trigger="trigger" :popper-class="popperClass" :content="data">
     <template #reference>
       <div ref="contentEl" class="text-truncated" :style="{ '-webkit-line-clamp': showRow ?? 1 }">
         <template v-if="data">{{ data }}</template>
@@ -16,12 +10,12 @@
 </template>
 
 <script lang="ts" setup>
-interface PropsData  {
+interface PropsData {
   data: any;
   popperClass: string;
-  trigger: 'click' | 'focus' | 'hover'
+  trigger: 'click' | 'focus' | 'hover';
   template?: string;
-  showRow: number
+  showRow: number;
 }
 
 import { onUnmounted, ref, watch } from 'vue';
@@ -31,15 +25,15 @@ const props = withDefaults(defineProps<PropsData>(), {
   popperClass: '',
   trigger: 'hover',
   showRow: 1
-})
+});
 
-watch(props.data,(newData) => {
-  if(newData) hanleTooltip();
-})
+watch(props.data, (newData) => {
+  if (newData) hanleTooltip();
+});
 
 onUnmounted(() => {
   contentEl.value && resizeObserver?.unobserve(contentEl.value);
-})
+});
 
 const tooltip = ref('');
 const contentEl = ref<HTMLElement | null>(null);
@@ -47,23 +41,23 @@ const contentEl = ref<HTMLElement | null>(null);
 let resizeObserver: ResizeObserver | null = null;
 const hanleTooltip = () => {
   const el = contentEl.value;
-  if(!el) return;
+  if (!el) return;
   resizeObserver = new ResizeObserver(() => {
-    if(el?.scrollHeight > el?.offsetHeight) {
+    if (el?.scrollHeight > el?.offsetHeight) {
       tooltip.value = props.data ?? props.template ?? '';
     }
-  })
+  });
   resizeObserver?.observe(el);
-}
+};
 </script>
 
 <style lang="scss">
-  div {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    word-break: break-all;
-    line-break: anywhere;
-  }
+div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  line-break: anywhere;
+}
 </style>

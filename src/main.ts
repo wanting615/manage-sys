@@ -1,11 +1,11 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import "element-plus/dist/index.css";
-import VMdEditor from "./hooks/editor";
-import { initGlobalComponent } from "./components";
-import { loadDirectives } from "./directives";
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import 'element-plus/dist/index.css';
+import VMdEditor from './hooks/editor';
+import { initGlobalComponent } from './components';
+import { loadDirectives } from './directives';
 
 const app = createApp(App);
 app.use(router).use(store);
@@ -16,6 +16,6 @@ app.use(VMdEditor);
 initGlobalComponent(app);
 
 /** 加载自定义指令 */
-loadDirectives(app)
+loadDirectives(app);
 
-app.mount("#app");
+app.mount('#app');

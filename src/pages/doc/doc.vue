@@ -1,27 +1,23 @@
 <template>
   <el-container>
     <el-main>
-      <router-view  v-slot="{ Component, route}">
+      <router-view v-slot="{ Component, route }">
         <KeepAlive :key="route.path" v-if="$route.meta.keepAlive">
-         <component :is="Component" :key="route.name"/>
+          <component :is="Component" :key="route.name" />
         </KeepAlive>
         <component v-if="!$route.meta.keepAlive" :is="Component" />
       </router-view>
       <!-- <router-view v-if="!$route.meta.keepAlive"></router-view> -->
     </el-main>
-</el-container>
-
- 
-
+  </el-container>
 </template>
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <style lang="scss" scoped>
-.el-aside{
+.el-aside {
   height: calc(100vh - 56px);
   background-color: #fff;
-  .el-menu{
-    border:none;
+  .el-menu {
+    border: none;
   }
 
   .add-doc-type {

@@ -8,18 +8,21 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const props = withDefaults(defineProps<{
-  size?: number;
-  height?: number;
-  fillColor?: string;
-  name: string;
-  prefix?: string;
-}>(), {
-  size: 18,
-  height: 18,
-  prefix: "icon",
-  fillColor: "#fff"
-})
+const props = withDefaults(
+  defineProps<{
+    size?: number;
+    height?: number;
+    fillColor?: string;
+    name: string;
+    prefix?: string;
+  }>(),
+  {
+    size: 18,
+    height: 18,
+    prefix: 'icon',
+    fillColor: '#fff'
+  }
+);
 
-const symbolId = computed(() => `#${props.prefix}-${props.name}`)
+const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>

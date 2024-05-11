@@ -1,25 +1,25 @@
 <template>
   <div :class="calsses" class="app-warpper">
     <div :class="layoutClass">
-        <LeftSliderBar class="sidebar-container"></LeftSliderBar>
-         <!-- 主容器 -->
-        <div  class="main-container">
-          <!-- 头部导航栏和标签栏 -->
-          <div  class="layout-header">
-            <NavigationBar />
-          </div>
-          <!-- 页面主体内容 -->
-          <AppMain class="app-main" />
+      <LeftSliderBar class="sidebar-container" />
+      <!-- 主容器 -->
+      <div class="main-container">
+        <!-- 头部导航栏和标签栏 -->
+        <div class="layout-header">
+          <NavigationBar />
         </div>
+        <!-- 页面主体内容 -->
+        <AppMain class="app-main" />
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue';
 import useResize from '@/hooks/useResize';
-import LeftSliderBar from "./leftSliderBar/index.vue";
-import NavigationBar from "./navigationBar/index.vue"
-import AppMain from "./appMain/index.vue";
+import LeftSliderBar from './leftSliderBar/index.vue';
+import NavigationBar from './navigationBar/index.vue';
+import AppMain from './appMain/index.vue';
 import { useStore } from '@/store';
 
 /** 响应式布局，监听页面宽度变化，切换移动端还是pc端 */
@@ -27,18 +27,15 @@ useResize();
 
 const store = useStore();
 const calsses = computed(() => {
-  return {
-
-  }
-})
+  return {};
+});
 
 const layoutClass = computed(() => {
   return {
     hideSidebar: store.state.app.closeSiderBar,
-    openSidebar: !store.state.app.closeSiderBar,
-  }
-})
-
+    openSidebar: !store.state.app.closeSiderBar
+  };
+});
 </script>
 
 <style lang="scss">

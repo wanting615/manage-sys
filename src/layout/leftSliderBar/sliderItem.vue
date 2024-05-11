@@ -15,7 +15,7 @@
         <el-icon v-if="item.meta?.icon"> <SvgIcon :name="item.meta.icon" /></el-icon>
         <span v-if="item.meta?.title">{{ item.meta.title }}</span>
       </template>
-       <template v-if="item.children">
+      <template v-if="item.children">
         <sliderItem
           v-for="child in item.children"
           :key="child.path"
@@ -40,33 +40,32 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   isFirstLevel: true,
   basePath: ''
-})
+});
 
 const hasChildren = computed(() => {
   return props.item.children?.length;
-})
+});
 
 /** 解析路径 */
 const resolvePath = (routePath: string) => {
-  if(!hasChildren.value) return props.basePath
-  return props.basePath + "/" +routePath;
-} 
-
+  if (!hasChildren.value) return props.basePath;
+  return props.basePath + '/' + routePath;
+};
 </script>
 
 <style scoped lang="scss">
-  a {
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
+}
 
-  .simple-mode {
-      :deep(.el-sub-menu) {
-        .el-sub-menu__icon-arrow {
-          display: none;
-        }
-        span {
-          visibility: hidden;
-        }
-      }
+.simple-mode {
+  :deep(.el-sub-menu) {
+    .el-sub-menu__icon-arrow {
+      display: none;
+    }
+    span {
+      visibility: hidden;
+    }
   }
+}
 </style>
