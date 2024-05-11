@@ -4,6 +4,10 @@ const docPage: Array<AppRouteRecordRaw> = [
 	{
 		path: "/doc",
 		name: "doc",
+		meta: {
+			title: "文档",
+			icon: 'doc',
+		},
 		component: () => import("@/pages/doc/doc.vue"),
 		children: [
 			{

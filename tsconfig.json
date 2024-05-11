@@ -10,6 +10,8 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["element-plus/global"],
     "lib": [
       "esnext",
       "dom"
@@ -28,9 +30,11 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "types/**/*.d.ts",
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ],
 }

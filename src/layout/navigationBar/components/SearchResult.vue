@@ -1,0 +1,93 @@
+<script lang="ts" setup>
+import { Doc } from "@/types/doc";
+import { getCurrentInstance, onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue"
+
+interface Props {
+  list: Doc[]
+  isPressUpOrDown: boolean
+}
+
+/** 选中的菜单 */
+const modelValue = defineModel<number | undefined>({ required: true })
+const props = defineProps<Props>()
+
+const instance = getCurrentInstance()
+const scrollbarHeight = ref<number>(0)
+
+/** 菜单的样式 */
+const itemStyle = (item: Doc) => {
+  const flag = item.id === modelValue.value
+  return {
+    background: flag ? "var(--el-color-primary)" : "",
+    color: flag ? "#fff" : ""
+  }
+}
+
+/** 鼠标移入 */
+const handleMouseenter = (item: Doc) => {
+  // 如果上键或下键与 mouseenter 事件同时生效，则以上下键为准，不执行该函数的赋值逻辑
+  if (props.isPressUpOrDown) return
+  modelValue.value = item.id
+}
+
+/** 计算滚动可视区高度 */
+const getScrollbarHeight = () => {
+  // el-scrollbar max-height="40vh"
+  scrollbarHeight.value = Number((window.innerHeight * 0.4).toFixed(1))
+}
+
+/** 根据下标计算到顶部的距离 */
+const getScrollTop = (index: number) => {
+  const currentInstance = instance?.proxy?.$refs[`resultItemRef${index}`] as HTMLDivElement[]
+  if (!currentInstance) return 0
+  const currentRef = currentInstance[0]
+  const scrollTop = currentRef.offsetTop + 128 // 128 = 两个 result-item （56 + 56 = 112）高度与上下 margin（8 + 8 = 16）大小之和
+  return scrollTop > scrollbarHeight.value ? scrollTop - scrollbarHeight.value : 0
+}
+
+/** 在组件挂载前添加窗口大小变化事件监听器 */
+onBeforeMount(() => {
+  window.addEventListener("resize", getScrollbarHeight)
+})
+
+/** 在组件挂载时立即计算滚动可视区高度 */
+onMounted(() => {
+  getScrollbarHeight()
+})
+
+/** 在组件卸载前移除窗口大小变化事件监听器 */
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", getScrollbarHeight)
+})
+
+defineExpose({ getScrollTop })
+</script>
+
+<template>
+  <!-- 外层 div 不能删除，是用来接收父组件 click 事件的 -->
+  <div>
+    <div
+      v-for="(item, index) in list"
+      :key="index"
+      :ref="`resultItemRef${index}`"
+      class="result-item"
+      :style="itemStyle(item)"
+      @mouseenter="handleMouseenter(item)"
+    >
+      222
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.result-item {
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 15px;
+  margin-top: 8px;
+  border: 1px solid var(--el-border-color);
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>

@@ -15,7 +15,6 @@ axios.defaults.withCredentials = true; //允许带cookie
 axios.interceptors.request.use(
 	(config: InternalAxiosRequestConfig) => {
 		// 携带token
-		console.log(store.state.user.token);
 		if (store.state.user.token) {
 			config.headers!.ACCESS_TOKEN = store.state.user.token;
 		}
@@ -93,11 +92,4 @@ export class HttpService {
 			);
 		});
 	}
-}
-
-export interface RootObject<T> {
-	message: string;
-	status: boolean;
-	data: T;
-	[propName: string]: any;
 }

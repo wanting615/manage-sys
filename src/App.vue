@@ -1,29 +1,21 @@
 
 <template>
   <router-view></router-view>
+
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { getUserInfo } from './api/login';
-import { useStore } from './store';
+import { ElNotification } from 'element-plus';
 
-const token = localStorage.getItem('token');
-const store = useStore();
-const router = useRouter();
-if (token) {
-  store.commit('setToken', token);
-  getUserInfo(token).then(res => {
-    if (res.status) {
-      store.commit('setIslogin', true);
-      store.commit('setUserInfo', res.data);
-    } else {
-      store.commit('setToken', '');
-      localStorage.removeItem('token')
-      router.push('/home')
-    }
-  })
-}
+ElNotification({
+  title: "Hello",
+  type: "success",
+  dangerouslyUseHTMLString: true,
+  message:
+    "<a style='color: teal' target='_blank' href='https://github.com/wanting615/mange-sys'>小项目获取 star 不易，如果你喜欢这个项目的话，欢迎点击这里支持一个 star ！</a>",
+  duration: 2000,
+  position: "bottom-right"
+})
 
 
 

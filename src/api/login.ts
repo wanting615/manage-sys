@@ -1,8 +1,8 @@
 import { UserInfo } from "@/types/user";
-import { HttpService, RootObject } from "../until/httpService";
+import { HttpService } from "../until/httpService";
 import { UrlService } from "./ur.base";
 export const login = (username: string, password: string) => {
-	return HttpService.post<RootObject<{ token: string; userInfo: UserInfo }>>(
+	return HttpService.post<ApiResponseData<{ token: string; userInfo: UserInfo }>>(
 		UrlService.loginUrl,
 		{
 			username,
@@ -11,8 +11,8 @@ export const login = (username: string, password: string) => {
 	);
 };
 
-export const getUserInfo = (token: string) => {
-	return HttpService.post<RootObject<UserInfo>>(UrlService.getUserInfo, {
+export const getUserInfoApi = (token: string) => {
+	return HttpService.post<ApiResponseData<UserInfo>>(UrlService.getUserInfo, {
 		token,
 	});
 };
@@ -22,7 +22,7 @@ export const registerUser = (
 	password: string,
 	name: string
 ) => {
-	return HttpService.post<RootObject<UserInfo>>(UrlService.registerUser, {
+	return HttpService.post<ApiResponseData<UserInfo>>(UrlService.registerUser, {
 		username,
 		password,
 		name,

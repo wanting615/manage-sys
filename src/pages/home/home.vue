@@ -1,16 +1,15 @@
 <template>
   <div class="home">
-    <el-form :model="form" ref="ruleFormRef" label-width="75px" label-position="left" :rules="rules" status-icon>
-      <el-form-item label="用户名" class="item" prop="username">
-        <el-input v-model="form.username" placeholder="请输入用户名"></el-input>
+    <el-form :model="form" ref="ruleFormRef"  :rules="rules" status-icon>
+    <h1>微信小程序后台管理</h1>
+      <el-form-item  class="item" prop="username">
+        <el-input v-model="form.username" placeholder="请输入用户名" :prefix-icon="User" size="large"></el-input>
       </el-form-item>
-      <el-form-item label="密码" class="item" prop="password">
-        <el-input v-model="form.password" placeholder="请输入密码" show-password></el-input>
+      <el-form-item  class="item" prop="password">
+        <el-input v-model="form.password" placeholder="请输入密码" :prefix-icon="Lock"  size="large" show-password></el-input>
       </el-form-item>
-      <el-form-item label class="item">
-        <el-button type="primary" @click="submitForm()">登陆</el-button>
-        <el-button type="primary" @click="register()">注册</el-button>
-      </el-form-item>
+        <el-button type="primary" @click="submitForm()" size="large">登陆</el-button>
+        <el-button type="primary" @click="register()" size="large">注册</el-button>
     </el-form>
   </div>
 </template>
@@ -21,6 +20,7 @@ import type {FormInstance, FormRules} from 'element-plus'
 import { login } from "@/api/login";
 import { useRouter } from "vue-router";
 import { useStore } from "@/store";
+import { User, Lock } from "@element-plus/icons-vue"
 
 
 const router = useRouter();
@@ -50,9 +50,9 @@ const loginFn =  () => {
         ElMessage(res.message)
         store.commit('setIslogin',true);
         store.commit('setToken', res.data.token);
-        store.commit('setUserInfo',res.data.userInfo)
+        // store.commit('setUserInfo',res.data.userInfo)
         localStorage.setItem('token', res.data.token);
-        router.push("/doc")
+        router.push("/index")
       } else {
         ElMessage.error( res.message)
       }
@@ -83,10 +83,23 @@ const rules = reactive<FormRules<{ username: string; password: string }>>({
     left: 50%;
     top: 50%;
     width: 400px;
-    padding: 80px 40px;
+    padding: 0 50px 50px 50px;
     transform: translate(-50%, -50%);
     background: rgba(255, 255, 255, 0.8);
     border-radius: 10px;
+
+    h1 {
+      text-align: center;
+      line-height: 150px;
+      margin: 0;
+      color: #409eff;
+    }
+  }
+
+  .el-button {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 10px;
   }
 }
 </style>

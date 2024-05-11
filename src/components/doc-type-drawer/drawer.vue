@@ -2,6 +2,7 @@
   <el-drawer
     title="添加文档类型"
     class="doc-drawer"
+    :size="'450px'"
     v-model="drawerVisible"
     :before-close="cancelForm"
     destroy-on-close
@@ -11,9 +12,8 @@
         <el-input v-model="data.form.name" autocomplete="off" placeholder="请输入文档类型"></el-input>
       </el-form-item>
       <el-form-item label="内容类型" label-width="80px">
-        <el-checkbox-group v-model="data.form.contentTypes">
-          <el-checkbox label="知识点" :border="true" value="info"></el-checkbox>
-          <el-checkbox label="问答题" :border="true" value="quetion"></el-checkbox>
+        <el-checkbox-group v-model="data.form.contents">
+          <el-checkbox v-for="item in contents" :label="item.name" :border="true" :value="item.name"></el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="类型图标" label-width="80px">
@@ -45,11 +45,11 @@
 <script setup lang="ts">
 import { reactive, ref, watch, } from "vue";
 import { Plus } from '@element-plus/icons'
-import { ElMessage, ElMessageBox } from "element-plus";
-import { addDocType, updateDocType } from "@/api/doc";
+import { ElMessage } from "element-plus";
+import { addDocType, getContentList, updateDocType } from "@/api/doc";
 import { UrlService } from "@/api/ur.base" 
 import { useStore } from "@/store";
-import { DocType, DocTypeForm } from "@/types/doc";
+import { Content, DocType, DocTypeForm } from "@/types/doc";
 
 type Props = {
   docType?: DocType | null;
@@ -80,7 +80,7 @@ const emit = defineEmits(['closeDarwer',"update:modelValue"])
 const data = reactive<{
   form: {
     name: string,
-    contentTypes: string[],
+    contents: string[],
   },
   loading: boolean,
   imageUrl: string,
@@ -88,23 +88,37 @@ const data = reactive<{
 }>({
   form: {
     name: '',
-    contentTypes: [],
+    contents: [],
   },
   loading: false,
   imageUrl: '',
-  unploadUrl: UrlService.baseUrl + "uploadTypeImg"
+  unploadUrl: UrlService.baseUrl + "/upload/img"
 })
 
 const initData = () => {
   data.form.name = props.docType?.name ?? '';
-  data.form.contentTypes = props.docType?.contentTypes ?? [];
+  data.form.contents = props.docType?.contents.map(item => item.name) ?? [];
   data.imageUrl = props.docType?.iconUrl ?? '';
 }
 
+const contents = reactive<Content[]>([]);
+getContentList().then(res => {
+  if(res.data?.length) {
+    contents.push(...res.data)
+  }else {
+    contents.push(...[
+      { name: '知识点'},
+      { name: '问答题'},
+    ])
+  }
+});
+
+
+
 //上传成功
-const handleAvatarSuccess = (res: { status: boolean; message: string; url: string }, file: File) => {
+const handleAvatarSuccess = (res: { status: boolean; message: string; data: string }, file: File) => {
   if (res.status) {
-    data.imageUrl = res.url
+    data.imageUrl = res.data
   }
 }
 
@@ -119,10 +133,10 @@ const handleClose = () => {
     return
   }
   data.loading = true
-  const _paylod: DocTypeForm = {
+  const _paylod: any = {
     id: props.docType?.id,
     name: data.form.name,
-    contentTypes: data.form.contentTypes.join(","),
+    contents: data.form.contents.map(item => ({ name: item })),
     iconUrl: data.imageUrl
   }
   const _request = props.docType?.id ? updateDocType(_paylod) : addDocType(_paylod)
@@ -130,7 +144,7 @@ const handleClose = () => {
   _request.then(res => {
     setTimeout(() => {
       if (res.status) {
-        emit("update:modelValue", false);
+        emit("update:modelValue", !!props.docType?.id);
         emit('closeDarwer', res.data);
         drawerVisible.value = false;
         ElMessage({ message: res.message, type: 'success' })
@@ -152,7 +166,7 @@ const cancelForm = () => {
 
 const resetData = () => {
   data.form.name = '';
-  data.form.contentTypes = [];
+  data.form.contents = [];
   data.imageUrl = '';
 }
 </script>

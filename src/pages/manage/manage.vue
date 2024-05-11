@@ -1,5 +1,11 @@
 <template>
   <div class="container">
+    <div class="list-header">
+      <div class="list-title">文档类型列表</div>
+      <div class="act-btn">
+        <el-button type="primary" round v-button="'button-defalut'" @click="onOpenDrawer">新建文档类型</el-button>
+      </div>
+    </div>
     <el-container style="padding: 8px;background-color: #fff;">
       <el-table :data="data.docTypeList" :border="true" :stripe="true"  style="width: 100%" row-class-name="table">
       <el-table-column label="文档类型图标">
@@ -14,12 +20,12 @@
       </el-table-column>
       <el-table-column label="文档子类型">
         <template #default="scope">
-          <span style="margin-left: 10px" v-for="item in scope.row.contentTypes">{{item}}</span>
+          <span style="margin-left: 10px" v-for="item in scope.row.contents">{{item.name}}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120">
         <template #default="scope">
-          <el-button size="small" type="primary" link @click="handleEdit(scope.row)">编辑</el-button>
+          <el-button size="small" type="primary" link @click="onEdit(scope.row)">编辑</el-button>
           <el-divider direction="vertical" />
           <el-switch v-model="scope.row.disabled" :active-value="1" :inactive-value="0" inline-prompt active-text="启用" inactive-text="禁用" :before-change="changeUserStatus(scope.row)"/>
           <!-- <el-popconfirm
@@ -39,34 +45,28 @@
       </el-table-column>
     </el-table>
     </el-container>
+
+    <DocTypeDrawerComponent v-model="drawerVisible" :doc-type="data.rowData" @closeDarwer="onCloseDarwer" ></DocTypeDrawerComponent>
   </div>
 
-  <DocTypeDrawerComponent v-model="data.docTypeDrawer" :doc-type="data.rowData" @closeDarwer="closeDarwer" ></DocTypeDrawerComponent>
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { DocType } from "@/types/doc";
 import { delDoc, enableDocType, getDocTypeList } from '@/api/doc'
 import DocTypeDrawerComponent from "@/components/doc-type-drawer/drawer.vue"
-import { InfoFilled } from '@element-plus/icons-vue'
 import { ElMessage } from "element-plus";
 
 const baseUrl = import.meta.env.VITE_BASE_URL;
 const data = reactive<{
   docTypeList: DocType[]; //文档类型列表
   rowData: DocType | null,//当前编辑行引用
-  docTypeDrawer: boolean,
 }>({
   docTypeList: [],
   rowData: null,
-  docTypeDrawer: false
 })
-
-const handleEdit = ( row: DocType) => {
-  data.docTypeDrawer = true
-  data.rowData = row;
-}
+const drawerVisible = ref(false);
 
 //禁用某文档类型
 const changeUserStatus = (row: DocType) => {
@@ -90,7 +90,7 @@ const changeUserStatus = (row: DocType) => {
 const handleDelete = (row: DocType) => {
   delDoc(row.id).then(res => {
     ElMessage({ message: res.message, type: 'success' });
-    getDocTypeList();
+    getList();
   })
 }
 
@@ -104,12 +104,28 @@ const getList = () => {
 getList();
 
 
-const closeDarwer = (docType: DocType | null)=>{
-  getList()
+const onEdit = ( row: DocType) => {
+  data.rowData = row;
+  drawerVisible.value = true;
+}
+
+//关闭drawer回调
+const onCloseDarwer = (arg: boolean | DocType) => {
+ typeof arg !== "boolean" && data.docTypeList.push(arg);
+};
+
+// 打开drawer
+const onOpenDrawer = () => {
+  drawerVisible.value = true;
 }
 
 </script>
 
-<style>
-
+<style scoped>
+.list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
 </style>

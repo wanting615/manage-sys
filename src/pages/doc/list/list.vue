@@ -1,7 +1,7 @@
 <template>
-  <el-container>
+  <div>
     <div class="list-header">
-      <div class="list-title">文档列表</div>
+      <div class="list-title">{{data.docTypeName}}文档列表</div>
       <div class="act-btn">
         <el-button :icon="RefreshLeft" circle @click="reset()"/>
         <el-button type="primary" @click="onAddDoc()">新建文档</el-button>
@@ -9,26 +9,40 @@
     </div>
     <ListComponent  @handlerPageChange="handlerPageChange" 
       :docList="data.docList" :pages="data.pages"></ListComponent>
-  </el-container>
+  </div>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'list'
+}
+</script>
+
 <script setup lang="ts">
-import { reactive, watch } from "vue";
+import { reactive } from "vue";
 import { useRoute, onBeforeRouteUpdate, useRouter} from "vue-router";
 import { RefreshLeft } from "@element-plus/icons";
 import { getDocByType } from "@/api/doc";
 import { Doc } from "@/types/doc";
 import ListComponent from "../components/list-component/list.component.vue";
+import { onActivated } from "vue";
 const router = useRouter();
 
 const data = reactive<{
   docList: Doc[]; ///文档列表
-  page: number, // 当前页
+  page: number; // 当前页
   pages: number;
+  docTypeName: string;
 }>({
   docList: [],
   page: 1,
-  pages: 1
+  pages: 1,
+  docTypeName: ''
 });
+
+onActivated(() => {
+  console.log('onActivated')
+})
 
 const route = useRoute();
 const urlParams = {
@@ -49,6 +63,7 @@ const getDocs = () => {
     if (res.status) {
       data.docList = res.data;
       data.pages = res.pages;
+      data.docTypeName = res.name;
     }
   });
 };

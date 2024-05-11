@@ -4,7 +4,7 @@ export interface UserInfo {
 	username: string;
 	password: string;
 	name: string;
-	gen_time: string;
+	createAt: string;
 	status: number;
 	level: UserLevel;
 	phone?: string;

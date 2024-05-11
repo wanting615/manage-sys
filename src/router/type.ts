@@ -1,10 +1,13 @@
 import { defineComponent } from "vue";
 import { RouteRecordRaw } from "vue-router";
-
+import { UserLevel } from "@/types/user";
 export interface RouteMeta {
 	title?: string;
 	needLogin?: boolean;
 	keepAlive?: boolean;
+	level?: UserLevel[];
+	icon?: string;
+	hidden?: boolean;
 }
 
 export type Component<T extends any = any> =

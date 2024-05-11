@@ -7,6 +7,7 @@
           <el-menu-item index="doc" @click="onSwith('/doc')">文档管理</el-menu-item>
           <el-menu-item index="user"  @click="onSwith('/user')">用户管理</el-menu-item>
           <el-menu-item index="manage"  @click="onSwith('/manage')">文档类型</el-menu-item>
+          <el-menu-item index="database"  @click="onSwith('/database')">数据库可视化</el-menu-item>
         </el-menu>
         <div class="user-info">
           <span>{{ userInfo?.name || '未设置名称' }}</span>

@@ -139,7 +139,7 @@ const changeUserStatus = (user: UserInfo) => {
 }
 
 const dataFormat = (row: UserInfo) => {
-  return useFormatTime("YYYY-mm-dd HH:MM", row.gen_time);
+  return useFormatTime("YYYY-mm-dd HH:MM", row.createAt);
 }
 
 const searchChange = () => {
@@ -172,5 +172,9 @@ const searchChange = () => {
 }
 .el-switch {
   margin-right: 8px;
+}
+
+.el-select {
+  min-width: 130px;
 }
 </style>

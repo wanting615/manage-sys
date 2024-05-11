@@ -1,0 +1,20 @@
+/** 全局 CSS 变量 */
+:root {
+  --header-height: calc(var(--navigationbar-height) + var(--tagsview-height));
+  --header-bg-color: #fff;
+  --tagsview-height: 34px;
+  --navigationbar-height: 50px;
+
+  --body-bg-color: #f2f3f5;
+
+  /** Sidebar 组件样式 */
+  --sidebar-width: 220px;
+  --sidebar-hide-width: 58px;
+  --sidebar-menu-item-height: 60px;
+  --sidebar-menu-tip-line-bg-color: var(--el-color-primary);
+  --sidebar-menu-bg-color: #001428;
+  --sidebar-menu-hover-bg-color: #409eff10;
+  --sidebar-menu-text-color: #c0c4cc;
+  --sidebar-menu-active-text-color: #ffffff;
+}
+
