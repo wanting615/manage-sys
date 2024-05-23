@@ -10,7 +10,7 @@ ElNotification({
   type: 'success',
   dangerouslyUseHTMLString: true,
   message:
-    "<a style='color: teal' target='_blank' href='https://github.com/wanting615/mange-sys'>这是一个测试提示哦！</a>",
+    "<a style='color: teal' target='_blank' href='https://github.com/wanting615/mange-sys'>点击查看githup地址！</a>",
   duration: 2000,
   position: 'bottom-right'
 });
