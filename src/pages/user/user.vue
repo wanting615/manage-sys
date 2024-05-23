@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <el-container class="search-container">
+    <SearchContainer :header-title="'用户列表'" :show-btn-container="true" @on-fold="onFold" @on-refresh="getUserList">
       <el-form :inline="true" :model="searchModel">
         <el-form-item v-for="item in searchConfig" :label="item.label" :key="item.model">
           <template v-if="item.type === 'select'">
@@ -51,16 +51,17 @@
           </template>
         </el-form-item>
       </el-form>
-    </el-container>
-    <el-container>
+    </SearchContainer>
+    <el-container ref="tableEl">
       <el-table
         :data="data.dataList"
-        :cell-style="{ 'max-height': '100px' }"
         :border="true"
         :stripe="true"
-        :max-height="data.tableHeight"
+        :max-height="height"
+        :hide-on-single-page="true"
+        :show-overflow-tooltip="true"
       >
-        <el-table-column type="index" lable="#" width="40px" :fixed="true" :align="'center'" />
+        <el-table-column type="index" lable="#" width="50px" :fixed="true" :align="'center'" />
         <el-table-column prop="username" label="用户账号" :align="'center'" />
         <el-table-column prop="name" label="用户名称" :align="'center'">
           <template #default="scope">{{ scope.row.name || '-' }}</template>
@@ -93,18 +94,28 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination background layout="prev, pager, next" :page-count="data.count" v-model:currentPage="data.page" />
+      <el-pagination
+        background
+        layout="total,sizes,prev, pager, next"
+        :total="data.count"
+        :page-count="data.count"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        v-model:currentPage="data.page"
+        v-model:page-size="data.limit"
+        @change="onChangeSize"
+      />
     </el-container>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 import { UserInfo, UserSearchOption, UserKey } from '@/types/user';
 import { getUsers, setUserStatus, getUserSearchOptions } from '@/api/user';
 import { ElMessage } from 'element-plus';
 import { useFormatTime } from '@/until/format';
 import { searchConfig } from './user.config';
+import { useTableHeight } from '@/hooks/useTableHeight';
 
 const data = reactive<{
   dataList: UserInfo[];
@@ -112,7 +123,6 @@ const data = reactive<{
   page: number;
   count: number;
   limit: number;
-  tableHeight: string;
 }>({
   dataList: [],
   searchOptions: {
@@ -122,16 +132,11 @@ const data = reactive<{
   },
   page: 1,
   count: 0,
-  limit: 10,
-  tableHeight: '400px'
+  limit: 10
 });
+const { tableEl, height, setTableHeight } = useTableHeight();
 
 const searchModel = reactive<{ [key in UserKey]?: any }>({});
-
-onMounted(() => {
-  const _tableHeight = window.innerHeight - 56 - 56 - 58;
-  data.tableHeight = _tableHeight + 'px';
-});
 
 const handelWhere = () => {
   const _where: any = {};
@@ -147,7 +152,7 @@ const handelWhere = () => {
 const getUserList = () => {
   getUsers(data.page, data.limit, handelWhere()).then((res) => {
     if (res.status) {
-      data.count = res.count;
+      data.count = Math.ceil(res.count / data.limit);
       data.dataList = res.data;
     } else {
       ElMessage.error(res.message);
@@ -177,17 +182,22 @@ const dataFormat = (row: UserInfo) => {
 };
 
 const searchChange = () => {
-  console.log(searchModel);
   getUserList();
+};
+
+const onChangeSize = () => {
+  getUserList();
+};
+
+const onFold = () => {
+  setTableHeight();
+  console.log(height.value);
 };
 </script>
 
 <style scoped lang="scss">
-.search-container.el-container {
-  padding-top: 16px;
-  .el-form-item {
-    margin-bottom: 10px;
-  }
+.el-form-item {
+  margin-bottom: 10px;
 }
 
 .el-container {

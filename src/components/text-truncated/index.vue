@@ -51,7 +51,7 @@ const hanleTooltip = () => {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 div {
   overflow: hidden;
   text-overflow: ellipsis;

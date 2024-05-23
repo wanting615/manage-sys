@@ -8,9 +8,9 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AppHeader: typeof import('./src/components/app-header/index.vue')['default']
+    AppTale: typeof import('./src/components/app-tale/index.vue')['default']
     Drawer: typeof import('./src/components/doc-type-drawer/drawer.vue')['default']
     ElAffix: typeof import('element-plus/es')['ElAffix']
-    ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBacktop: typeof import('element-plus/es')['ElBacktop']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -29,13 +29,11 @@ declare module 'vue' {
     ElEmpty: typeof import('element-plus/es')['ElEmpty']
     ElForm: typeof import('element-plus/es')['ElForm']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
-    ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElPopover: typeof import('element-plus/es')['ElPopover']
@@ -51,10 +49,8 @@ declare module 'vue' {
     NoData: typeof import('./src/components/no-data/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchContainer: typeof import('./src/components/search-container/index.vue')['default']
     SvgIcon: typeof import('./src/components/svg-icon/index.vue')['default']
     TextTruncated: typeof import('./src/components/text-truncated/index.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vPopover: typeof import('element-plus/es')['ElPopoverDirective']
   }
 }
