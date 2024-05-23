@@ -24,5 +24,6 @@ ElNotification({
   -moz-osx-font-smoothing: grayscale;
   min-width: 900px;
 }
+// test
 @import './theme/mobile.scss';
 </style>
